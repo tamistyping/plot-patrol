@@ -9,7 +9,7 @@ from models.user import User
 def index():
     properties = Property.query.filter_by(owner_id=current_user.id).all()
     total_property_value = sum(property.value for property in properties)
-    return render_template('properties.html', properties=properties, total_property_value=total_property_value)
+    return render_template('user_properties.html', properties=properties, total_property_value=total_property_value)
 
 @app.route('/add_property', methods=['GET', 'POST'])
 @login_required

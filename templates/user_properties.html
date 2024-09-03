@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+
+{% block title %}My Properties - Plot Patrol{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>My Properties</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Type</th>
+                <th>Address</th>
+                <th>Value</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for property in properties %}
+            <tr>
+                <td>{{ property.title }}</td>
+                <td>{{ property.property_type }}</td>
+                <td>{{ property.address }}, {{ property.city }}, {{ property.postcode }}</td>
+                <td>£{{ property.value }}</td>
+                <td>
+                    <a href="{{ url_for('transfer_ownership', property_id=property.id) }}" class="btn btn-warning btn-sm">Transfer</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
