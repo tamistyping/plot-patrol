@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block title %}Home - Plot Patrol{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="jumbotron text-center">
+        <h1>Welcome back, {{ current_user.first_name }}!</h1>
+        <p class="lead">You own {{ properties|length }} properties.</p>
+        <p class="lead">Your total property value is £{{ total_property_value }}.</p>
+    </div>
+</div>
+{% endblock %}
