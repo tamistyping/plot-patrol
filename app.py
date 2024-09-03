@@ -12,7 +12,9 @@ login_manager.login_view = 'login'
 
 from models.user import User
 from models.property import Property
-from routes import auth_routes, property_routes
+from routes.auth_routes import *
+from routes.property_routes import *
+from routes.user_routes import * 
 
 @login_manager.user_loader
 def load_user(user_id):
