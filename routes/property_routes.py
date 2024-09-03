@@ -50,11 +50,11 @@ def transfer_property(id):
 
         if not new_owner:
             flash('User does not exist!')
-            return redirect(url_for('transfer_property', id=id))
+            return redirect(url_for('transfer_ownership', id=id))
 
         property_to_transfer.owner_id = new_owner.id
         db.session.commit()
         flash('Property ownership transferred successfully!')
         return redirect(url_for('index'))
 
-    return render_template('transfer_property.html', property=property_to_transfer)
+    return render_template('transfer_ownership.html', property=property_to_transfer)

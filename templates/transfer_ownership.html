@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block title %}Transfer Ownership - Plot Patrol{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Transfer Ownership of {{ property.title }}</h1>
+    <form method="POST">
+        <div class="form-group">
+            <label for="username">New Owner Username</label>
+            <input type="text" class="form-control" id="username" name="username" placeholder="Enter the new owner's username" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Transfer</button>
+    </form>
+</div>
+{% endblock %}
