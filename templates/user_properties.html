@@ -23,7 +23,7 @@
                 <td>{{ property.address }}, {{ property.city }}, {{ property.postcode }}</td>
                 <td>£{{ property.value }}</td>
                 <td>
-                    <a href="{{ url_for('transfer_ownership', property_id=property.id) }}" class="btn btn-warning btn-sm">Transfer</a>
+                    <a href="{{ url_for('transfer_property', id=property.id) }}" class="btn btn-warning btn-sm">Transfer</a>
                 </td>
             </tr>
             {% endfor %}
