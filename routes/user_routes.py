@@ -2,11 +2,14 @@ from flask import render_template, request, redirect, url_for, flash
 from flask_login import login_required, current_user
 from app import app, db
 from models.user import User
+from models.property import Property
 
 @app.route('/profile')
 @login_required
 def user_profile():
-    return render_template('user_profile.html', user=current_user)
+    properties = Property.query.filter_by(owner_id=current_user.id).all()
+    total_property_value = sum(property.value for property in properties)
+    return render_template('user_profile.html', user=current_user, properties=properties, total_property_value=total_property_value)
 
 @app.route('/edit_profile', methods=['GET', 'POST'])
 @login_required

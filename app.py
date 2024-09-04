@@ -25,10 +25,11 @@ def load_user(user_id):
     return User.query.get(int(user_id))
 
 @app.route('/')
+@login_required
 def index():
-    if not current_user.is_authenticated:
-        return redirect(url_for('login'))
-    return render_template('index.html')
+    properties = Property.query.filter_by(owner_id=current_user.id).all()
+    total_property_value = sum(property.value for property in properties)
+    return render_template('index.html', properties=properties, total_property_value=total_property_value)
 
 if __name__ == "__main__":
     app.run(debug=True)
