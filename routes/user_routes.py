@@ -3,9 +3,14 @@ from flask_login import login_required, current_user
 from app import app, db
 from models.user import User
 
-@app.route('/profile', methods=['GET', 'POST'])
+@app.route('/profile')
 @login_required
-def profile():
+def user_profile():
+    return render_template('user_profile.html', user=current_user)
+
+@app.route('/edit_profile', methods=['GET', 'POST'])
+@login_required
+def edit_profile():
     if request.method == 'POST':
         new_username = request.form['username']
         new_email = request.form['email']
@@ -16,12 +21,12 @@ def profile():
 
         if new_password != new_password_confirmation:
             flash('Passwords do not match!')
-            return redirect(url_for('profile'))
+            return redirect(url_for('edit_profile'))
 
         user = User.query.get(current_user.id)
         if not user:
             flash('User not found!')
-            return redirect(url_for('profile'))
+            return redirect(url_for('edit_profile'))
 
         user.username = new_username
         user.email = new_email
@@ -29,10 +34,10 @@ def profile():
         user.last_name = new_last_name
 
         if new_password:
-            user.password = new_password 
+            user.password = new_password  
 
         db.session.commit()
         flash('Profile updated successfully!')
-        return redirect(url_for('profile'))
+        return redirect(url_for('user_profile'))
 
-    return render_template('profile.html', user=current_user)
+    return render_template('edit_profile.html', user=current_user)

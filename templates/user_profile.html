@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Profile - Plot Patrol{% endblock %}
+
+{% block content %}
+<div class="container mt-4">
+    <h1>Welcome Back, {{ user.first_name }}!</h1>
+    <p><strong>Username:</strong> {{ user.username }}</p>
+    <p><strong>First Name:</strong> {{ user.first_name }}</p>
+    <p><strong>Last Name:</strong> {{ user.last_name }}</p>
+    <p><strong>Email:</strong> {{ user.email }}</p>
+    <p><strong>Number of Properties:</strong> {{ properties_count }}</p>
+    <p><strong>Total Property Value:</strong> £{{ total_value }}</p>
+
+    <a href="{{ url_for('edit_profile') }}" class="btn btn-primary mt-3">Edit Profile</a>
+</div>
+{% endblock %}

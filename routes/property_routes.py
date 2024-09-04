@@ -6,7 +6,7 @@ from models.user import User
 
 @app.route('/properties', methods=['GET'])
 @login_required
-def index():
+def user_properties():
     properties = Property.query.filter_by(owner_id=current_user.id).all()
     total_property_value = sum(property.value for property in properties)
     return render_template('user_properties.html', properties=properties, total_property_value=total_property_value)
@@ -28,16 +28,15 @@ def add_property():
         db.session.commit()
         return redirect(url_for('user_properties'))
 
-    return render_template('add_property.html')
+    return render_template('add_property.html', allowed_property_types=Property.allowed_property_types())
 
 @app.route('/delete_property/<int:id>', methods=['POST'])
 @login_required
 def delete_property(id):
     property_to_delete = Property.query.get_or_404(id)
-    
     db.session.delete(property_to_delete)
     db.session.commit()
-    return redirect(url_for('index'))
+    return redirect(url_for('user_properties'))
 
 @app.route('/transfer_property/<int:id>', methods=['GET', 'POST'])
 @login_required
@@ -50,11 +49,11 @@ def transfer_property(id):
 
         if not new_owner:
             flash('User does not exist!')
-            return redirect(url_for('transfer_ownership', id=id))
+            return redirect(url_for('transfer_property', id=id))
 
         property_to_transfer.owner_id = new_owner.id
         db.session.commit()
         flash('Property ownership transferred successfully!')
-        return redirect(url_for('index'))
+        return redirect(url_for('user_properties'))
 
     return render_template('transfer_ownership.html', property=property_to_transfer)
