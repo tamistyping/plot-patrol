@@ -8,6 +8,7 @@
         <h1>Welcome back, {{ current_user.first_name }}!</h1>
         <p class="lead">You own {{ properties|length }} properties.</p>
         <p class="lead">Your total property value is £{{ total_property_value }}.</p>
+        <img src="{{ url_for('property_value_plot') }}" alt="Property Value Plot" class="img-fluid">
     </div>
 </div>
 {% endblock %}

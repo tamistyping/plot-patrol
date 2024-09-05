@@ -1,5 +1,9 @@
-from flask import render_template, request, redirect, url_for, flash
+import io
+import matplotlib
+matplotlib.use('Agg')
+from flask import Response, render_template, request, redirect, send_file, url_for, flash
 from flask_login import login_required, current_user
+from matplotlib import pyplot as plt
 from app import app, db
 from models.property import Property
 from models.user import User
@@ -57,3 +61,29 @@ def transfer_property(id):
         return redirect(url_for('user_properties'))
 
     return render_template('transfer_ownership.html', property=property_to_transfer)
+
+@app.route('/property_value_plot', methods=['GET'])
+@login_required
+def property_value_plot():
+    properties = Property.query.filter_by(owner_id=current_user.id).all()
+
+    years = []
+    values = []
+    for prop in properties:
+        years.append(prop.date_added.year)
+        values.append(prop.value)
+
+    plt.figure(figsize=(7.5, 4.5))
+    plt.plot(years, values, marker='o')
+    plt.title('Your Total Value Over Time')
+    plt.xlabel('Year')
+    plt.ylabel('Value (£)')
+    plt.grid(False)
+
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    img.seek(0)
+    plt.close()
+
+    return Response(img.getvalue(), mimetype='image/png')
+
